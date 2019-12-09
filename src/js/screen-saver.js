@@ -19,7 +19,8 @@ document.body.appendChild(renderer.domElement);
 
 var font = undefined;
 var textMesh;
-var text = 'aaa';
+var text = ['aaaa', 'bbb', 'ccc', 'ddd'];
+var frase = 1
 loadFont();
 
 // em teste
@@ -28,9 +29,19 @@ loadFont();
 var xspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var yspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var zspeed = THREE.Math.randFloat(-0.5 , 0.5);
-
+document.addEventListener("keydown", onDocumentKeyDown, false);
 animate();
 
+function onDocumentKeyDown(event) {
+    var keyCode = event.key;
+    if (keyCode == 'ArrowLeft') {
+        frase -= 1;
+        refreshText();
+    } else if (keyCode == 'ArrowRight') {
+        frase += 1;
+        refreshText();
+    }
+};
 function animate() {
     requestAnimationFrame(animate);
     // refreshText();
@@ -64,7 +75,7 @@ function refreshText() {
 }
 
 function createText() {
-    var textGeometry = new THREE.TextGeometry( text, {
+    var textGeometry = new THREE.TextGeometry( text[frase], {
         size: 10,
         height: 5,
         curveSegments: 6,
