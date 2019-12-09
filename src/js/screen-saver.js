@@ -19,45 +19,61 @@ document.body.appendChild(renderer.domElement);
 
 var font = undefined;
 var textMesh;
-var text = ['aaaa', 'bbb', 'ccc', 'ddd'];
-var frase = 1
+const phrases = [
+    "Bueno",
+    "Sei lá",
+    "Pao"
+]
+var phrasesID = 0
 loadFont();
 
 // em teste
 
 // em teste
+var rotationSpeed = 0.1;
+var yrotation = 0;
 var xspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var yspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var zspeed = THREE.Math.randFloat(-0.5 , 0.5);
+var xposition = 0;
+var yposition = 0;
+var zposition = 0;
 document.addEventListener("keydown", onDocumentKeyDown, false);
 animate();
 
 function onDocumentKeyDown(event) {
     var keyCode = event.key;
     if (keyCode == 'ArrowLeft') {
-        frase -= 1;
+        if(phrasesID){
+            phrasesID -= 1;
+        }else{
+            phrasesID = phrases.length - 1;
+        }
         refreshText();
     } else if (keyCode == 'ArrowRight') {
-        frase += 1;
+        phrasesID = (phrasesID + 1)%phrases.length;
         refreshText();
     }
 };
 function animate() {
     requestAnimationFrame(animate);
-    // refreshText();
-    textMesh.position.x += xspeed;
-    textMesh.position.y += yspeed;
-    textMesh.position.z += zspeed;
-    if(textMesh.position.x > 10 || textMesh.position.x < 0){
+    xposition += xspeed;
+    textMesh.position.x = xposition;
+    yposition += yspeed;
+    textMesh.position.y = yposition;
+    zposition += zspeed;
+    textMesh.position.z = zposition;
+    if(xposition > 10 || xposition < 0){
         xspeed *= -1;
     }
-    if(textMesh.position.y > 10|| textMesh.position.y < 0){
+    if(yposition > 10|| yposition < 0){
         yspeed *= -1;
     }
-    if(textMesh.position.z > 10 || textMesh.position.z < 0){
+    if(zposition > 10 || zposition < 0){
         zspeed *= -1;
     }
-    textMesh.rotation.y += 0.01;
+    yrotation += rotationSpeed;
+    textMesh.rotation.y = yrotation;
     renderer.render(scene, camera);
 };
 
@@ -75,7 +91,7 @@ function refreshText() {
 }
 
 function createText() {
-    var textGeometry = new THREE.TextGeometry( text[frase], {
+    var textGeometry = new THREE.TextGeometry( phrases[phrasesID], {
         size: 10,
         height: 5,
         curveSegments: 6,
