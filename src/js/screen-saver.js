@@ -12,31 +12,65 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 
-var geometry = new THREE.BoxGeometry(1, 1, 1);
+// var geometry = new THREE.BoxGeometry(1, 1, 1);
+// var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
+// var cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 
-var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
-var cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+var font = undefined;
+var textMesh;
+var text = 'aaa';
+loadFont();
+
+// em teste
+
+// em teste
 var xspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var yspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var zspeed = THREE.Math.randFloat(-0.5 , 0.5);
 
+animate();
+
 function animate() {
     requestAnimationFrame(animate);
-    cube.position.x += xspeed;
-    cube.position.y += yspeed;
-    cube.position.z += zspeed;
-    if(cube.position.x > 10 || cube.position.x < 0){
+    // refreshText();
+    textMesh.position.x += xspeed;
+    textMesh.position.y += yspeed;
+    textMesh.position.z += zspeed;
+    if(textMesh.position.x > 10 || textMesh.position.x < 0){
         xspeed *= -1;
     }
-    if(cube.position.y > 10|| cube.position.y < 0){
+    if(textMesh.position.y > 10|| textMesh.position.y < 0){
         yspeed *= -1;
     }
-    if(cube.position.z > 10 || cube.position.z < 0){
+    if(textMesh.position.z > 10 || textMesh.position.z < 0){
         zspeed *= -1;
     }
-    cube.rotation.y += 0.01;
+    textMesh.rotation.y += 0.01;
     renderer.render(scene, camera);
 };
 
-animate();
+function loadFont(){
+    var loader = new THREE.FontLoader();
+	loader.load( 'fonts/helvetiker_regular.typeface.json', function ( response ) {
+		font = response;
+        createText();
+    } );
+}
+
+function refreshText() {
+	scene.remove( textMesh );
+	createText();
+}
+
+function createText() {
+    var textGeometry = new THREE.TextGeometry( text, {
+        size: 10,
+        height: 5,
+        curveSegments: 6,
+        font: font
+    });
+    var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
+    textMesh = new THREE.Mesh( textGeometry, material);
+    scene.add(textMesh);
+}
