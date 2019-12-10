@@ -30,7 +30,7 @@ loadFont();
 // em teste
 
 // em teste
-var rotationSpeed = 0.1;
+var rotationSpeed = 0.01;
 var yrotation = 0;
 var xspeed = THREE.Math.randFloat(-0.5 , 0.5);
 var yspeed = THREE.Math.randFloat(-0.5 , 0.5);
@@ -55,27 +55,35 @@ function onDocumentKeyDown(event) {
         refreshText();
     }
 };
+
 function animate() {
     requestAnimationFrame(animate);
+    bounceTextMesh();
+    renderer.render(scene, camera);
+};
+
+function bounceTextMesh(){
     xposition += xspeed;
     textMesh.position.x = xposition;
     yposition += yspeed;
     textMesh.position.y = yposition;
     zposition += zspeed;
     textMesh.position.z = zposition;
-    if(xposition > 10 || xposition < 0){
+    if(xposition > 20 || xposition < -20){
         xspeed *= -1;
+        rotationSpeed *= -1;
     }
-    if(yposition > 10|| yposition < 0){
+    if(yposition > 20|| yposition < -20){
         yspeed *= -1;
+        rotationSpeed *= -1;
     }
-    if(zposition > 10 || zposition < 0){
+    if(zposition > 0 || zposition < -500){
         zspeed *= -1;
+        rotationSpeed *= -1;
     }
     yrotation += rotationSpeed;
     textMesh.rotation.y = yrotation;
-    renderer.render(scene, camera);
-};
+}
 
 function loadFont(){
     var loader = new THREE.FontLoader();
@@ -93,8 +101,8 @@ function refreshText() {
 function createText() {
     var textGeometry = new THREE.TextGeometry( phrases[phrasesID], {
         size: 10,
-        height: 5,
-        curveSegments: 6,
+        height: 3,
+        curveSegments: 10,
         font: font
     });
     var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
