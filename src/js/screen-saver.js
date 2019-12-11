@@ -19,6 +19,16 @@ controls.update();
 // var cube = new THREE.Mesh(geometry, material);
 // scene.add(cube);
 
+scene.background = new THREE.CubeTextureLoader()
+	.setPath( './images/' )
+	.load( [
+		'px.png',
+		'nx.png',
+		'py.png',
+		'ny.png',
+		'pz.png',
+		'nz.png'
+	] );
 
 
 
