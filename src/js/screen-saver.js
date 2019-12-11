@@ -5,7 +5,6 @@ var camera	= new THREE.PerspectiveCamera(
     0.01,
     1000
 );
-camera.position.z = 50;
 var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setClearColor("#E5E5E5");
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -14,10 +13,19 @@ document.body.appendChild(renderer.domElement);
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
 camera.position.set( 0, 20, 100 );
 controls.update();
-// var geometry = new THREE.BoxGeometry(1, 1, 1);
-// var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
-// var cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
+
+var lightGreen = new THREE.PointLight( 0x00ff00, 0.1, 1000 );
+lightGreen.position.set( -10, 100, -100 );
+scene.add( lightGreen );
+
+var lightRed= new THREE.PointLight( 0xff0000, 0.2, 1000 );
+lightRed.position.set( -100, -10, 0);
+scene.add( lightRed );
+
+var lightYellow= new THREE.PointLight( 0xffff66, 0.5, 1000 );
+lightYellow.position.set( 10, 50, 100 );
+scene.add( lightYellow);
+
 
 scene.background = new THREE.CubeTextureLoader()
 	.setPath( './images/' )
@@ -29,14 +37,14 @@ scene.background = new THREE.CubeTextureLoader()
 		'pz.png',
 		'nz.png'
     ] );
-    
+
 
     var listener = new THREE.AudioListener();
     camera.add( listener );
-    
+
     // create a global audio source
     var sound = new THREE.Audio( listener );
-    
+
     // load a sound and set it as the Audio object's buffer
     var audioLoader = new THREE.AudioLoader();
     audioLoader.load( './sound/Shooting Stars.ogg', function( buffer ) {
@@ -52,20 +60,16 @@ var font = undefined;
 var textMesh;
 const phrases = [
     "Bueno",
-    "Sei lá",
-    "Pao"
+    "Reprovado"
 ]
 var phrasesID = 0
 loadFont();
 
-// em teste
-
-// em teste
 var rotationSpeed = 0.01;
 var yrotation = 0;
-var xspeed = THREE.Math.randFloat(-0.5 , 0.5);
-var yspeed = THREE.Math.randFloat(-0.5 , 0.5);
-var zspeed = THREE.Math.randFloat(-0.5 , 0.5);
+var xspeed = THREE.Math.randFloat(-1 , 1);
+var yspeed = THREE.Math.randFloat(-1 , 1);
+var zspeed = THREE.Math.randFloat(-1 , 1);
 var xposition = 0;
 var yposition = 0;
 var zposition = 0;
@@ -101,15 +105,15 @@ function bounceTextMesh(){
     textMesh.position.y = yposition;
     zposition += zspeed;
     textMesh.position.z = zposition;
-    if(xposition > 20 || xposition < -20){
+    if(xposition > 100 || xposition < -100){
         xspeed *= -1;
         rotationSpeed *= -1;
     }
-    if(yposition > 20|| yposition < -20){
+    if(yposition > 100|| yposition < -100){
         yspeed *= -1;
         rotationSpeed *= -1;
     }
-    if(zposition > 0 || zposition < -500){
+    if(zposition > 100 || zposition < -100){
         zspeed *= -1;
         rotationSpeed *= -1;
     }
@@ -137,7 +141,8 @@ function createText() {
         curveSegments: 10,
         font: font
     });
-    var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
+    textGeometry.center();
+    var material = new THREE.MeshPhongMaterial({color:0xffffff});
     textMesh = new THREE.Mesh( textGeometry, material);
     scene.add(textMesh);
 }
