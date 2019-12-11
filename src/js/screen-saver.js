@@ -60,7 +60,14 @@ var font = undefined;
 var textMesh;
 const phrases = [
     "Bueno",
-    "Reprovado"
+    "Reprovado",
+    "Vou postar as notas essa semana ainda, rs",
+    "Polinésia francesa",
+    "Vcs não se emocionam?",
+    "lansou a braba",
+    "Éusguri",
+    "Abrindo parênteses",
+    "Fechando parênteses"
 ]
 var phrasesID = 0
 loadFont();
