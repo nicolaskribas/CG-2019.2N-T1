@@ -11,11 +11,16 @@ renderer.setClearColor("#E5E5E5");
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-
+var controls = new THREE.OrbitControls( camera, renderer.domElement );
+camera.position.set( 0, 20, 100 );
+controls.update();
 // var geometry = new THREE.BoxGeometry(1, 1, 1);
 // var material = new THREE.MeshLambertMaterial({color:0xFFCC00});
 // var cube = new THREE.Mesh(geometry, material);
 // scene.add(cube);
+
+
+
 
 var font = undefined;
 var textMesh;
@@ -59,6 +64,7 @@ function onDocumentKeyDown(event) {
 function animate() {
     requestAnimationFrame(animate);
     bounceTextMesh();
+    controls.update();
     renderer.render(scene, camera);
 };
 
