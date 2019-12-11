@@ -51,7 +51,7 @@ scene.background = new THREE.CubeTextureLoader()
         sound.setBuffer( buffer );
         sound.setLoop( true );
         sound.setVolume( 0.5 );
-        sound.play();
+
     });
 
 
@@ -81,7 +81,8 @@ var xposition = 0;
 var yposition = 0;
 var zposition = 0;
 document.addEventListener("keydown", onDocumentKeyDown, false);
-animate();
+const cubeCamera = new THREE.CubeCamera(1, 1000, 520);
+scene.add(cubeCamera);
 
 function onDocumentKeyDown(event) {
     var keyCode = event.key;
@@ -95,6 +96,10 @@ function onDocumentKeyDown(event) {
     } else if (keyCode == 'ArrowRight') {
         phrasesID = (phrasesID + 1)%phrases.length;
         refreshText();
+    }else if(keyCode == 'Enter'){
+        sound.play();
+        animate();
+
     }
 };
 
@@ -103,6 +108,7 @@ function animate() {
     bounceTextMesh();
     controls.update();
     renderer.render(scene, camera);
+    cubeCamera.update(renderer, scene);
 };
 
 function bounceTextMesh(){
@@ -150,6 +156,7 @@ function createText() {
     });
     textGeometry.center();
     var material = new THREE.MeshPhongMaterial({color:0xffffff});
+    material.envMap = cubeCamera.renderTarget.texture;
     textMesh = new THREE.Mesh( textGeometry, material);
     scene.add(textMesh);
 }
