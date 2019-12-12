@@ -63,7 +63,7 @@ const phrases = [
     "Reprovado",
     "Vou postar as notas essa semana ainda, rs",
     "Polinesia francesa",
-    "Vcs não se emocionam?",
+    "Vcs nao se emocionam?",
     "lansou a braba",
     "Eusguri",
     "Abrindo parenteses",
