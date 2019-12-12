@@ -1,3 +1,4 @@
+var hasStarted = 0;
 var scene = new THREE.Scene();
 var camera	= new THREE.PerspectiveCamera(
     45,
@@ -81,9 +82,26 @@ var xposition = 0;
 var yposition = 0;
 var zposition = 0;
 document.addEventListener("keydown", onDocumentKeyDown, false);
+window.addEventListener("touchend", onTouchEnd);
+document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+
 const cubeCamera = new THREE.CubeCamera(1, 1000, 520);
 scene.add(cubeCamera);
+function onDocumentMouseDown(event){
+    if(!hasStarted){
+        sound.play();
+        animate();
+        hasStarted = 1;
 
+    }
+}
+function onTouchEnd(event){
+    if(!hasStarted){
+        sound.play();
+        animate();
+        hasStarted = 1;
+    }
+}
 function onDocumentKeyDown(event) {
     var keyCode = event.key;
     if (keyCode == 'ArrowLeft') {
@@ -96,10 +114,6 @@ function onDocumentKeyDown(event) {
     } else if (keyCode == 'ArrowRight') {
         phrasesID = (phrasesID + 1)%phrases.length;
         refreshText();
-    }else if(keyCode == 'Enter'){
-        sound.play();
-        animate();
-
     }
 };
 
